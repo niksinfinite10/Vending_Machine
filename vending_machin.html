@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    .margin-vertical{
+    margin: 0 0 5px 5px;
+    }
+    .instruction{
+    margin:5px 0 0 5px;
+    }
+    </style>
+    <link rel="stylesheet" href="./css/bootstrap.css" >
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">IMG Vending Machine</h1>
+        </div>
+        <div class="col-md-9">
+          <div class="col-md-4 thumb">
+            <a class="thumbnail" href="#">
+              <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+              1. $1.00 cola
+            </a>
+          </div>
+          <div class="col-md-4 thumb">
+            <a class="thumbnail" href="#">
+              <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+              2. $0.50 chips
+            </a>
+          </div>
+          <div class="col-md-4 thumb">
+            <a class="thumbnail" href="#">
+              <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+              3. $0.65 candy
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="row ">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="instruction">
+                    <input type="text" class="btn btn-default btn-lg" value="00.00" />
+                  </div>
+                  <div class="col-md-12">
+                    <h4 style="display:block">Please select</h4>
+                  </div>
+                  <div style="margin-top:10px;">
+                    <button class="col-md-3 margin-vertical">1</button>
+                    <button class="col-md-3 margin-vertical">2</button>
+                    <button class="col-md-3 margin-vertical">3</button>
+                  </div>
+                  <div class="col-md-12">
+                    <h4 style="display:block">Coins</h4>
+                  </div>
+                  <div style="margin-top:10px;">
+                    <button class="col-md-3 margin-vertical">$1</button>
+                    <button class="col-md-3 margin-vertical">$0.5</button>
+                    <button class="col-md-3 margin-vertical">$0.10</button>
+                  </div>
+                  <div style="margin-top:10px;">
+                    <button class="col-md-3 margin-vertical">$0.25</button>
+                    <button class="col-md-3 margin-vertical">$0.50</button>
+                    <button class="col-md-3 margin-vertical">$1.00</button>
+                  </div>
+                </div>
+             </div>
+           </div>
+        </div>
+      </div>
+  </body>
+</html>
