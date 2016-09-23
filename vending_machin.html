@@ -19,19 +19,19 @@
         </div>
         <div class="col-md-9">
           <div class="col-md-4 thumb">
-            <a class="thumbnail" href="#">
+            <a class="thumbnail" href="javacsript:void(0)">
               <img class="img-responsive" src="http://placehold.it/400x300" alt="">
               1. $1.00 cola
             </a>
           </div>
           <div class="col-md-4 thumb">
-            <a class="thumbnail" href="#">
+            <a class="thumbnail" href="javacsript:void(0)">
               <img class="img-responsive" src="http://placehold.it/400x300" alt="">
               2. $0.50 chips
             </a>
           </div>
           <div class="col-md-4 thumb">
-            <a class="thumbnail" href="#">
+            <a class="thumbnail" href="javacsript:void(0)" >
               <img class="img-responsive" src="http://placehold.it/400x300" alt="">
               3. $0.65 candy
             </a>
@@ -43,33 +43,65 @@
             <div class="panel panel-default">
               <div class="panel-body">
                 <div class="instruction">
-                    <input type="text" class="btn btn-default btn-lg" value="00.00" />
+                    <input id="displayMessage" type="text" class="btn btn-default btn-lg" value="00.00"  />
                   </div>
                   <div class="col-md-12">
                     <h4 style="display:block">Please select</h4>
                   </div>
                   <div style="margin-top:10px;">
-                    <button class="col-md-3 margin-vertical">1</button>
-                    <button class="col-md-3 margin-vertical">2</button>
-                    <button class="col-md-3 margin-vertical">3</button>
+                    <button class="col-md-3 margin-vertical" onClick="buyItem('cola')" >1</button>
+                    <button class="col-md-3 margin-vertical" onClick="buyItem('chips')">2</button>
+                    <button class="col-md-3 margin-vertical" onClick="buyItem('candy')">3</button>
                   </div>
                   <div class="col-md-12">
                     <h4 style="display:block">Coins</h4>
                   </div>
                   <div style="margin-top:10px;">
-                    <button class="col-md-3 margin-vertical">$1</button>
-                    <button class="col-md-3 margin-vertical">$0.5</button>
-                    <button class="col-md-3 margin-vertical">$0.10</button>
+                    <button class="col-md-3 margin-vertical" data-coin-name="penny" >$0.01</button>
+                    <button class="col-md-3 margin-vertical" data-coin-name="nickel" >$0.5</button>
+                    <button class="col-md-3 margin-vertical" data-coin-name="dime" >$0.10</button>
                   </div>
                   <div style="margin-top:10px;">
-                    <button class="col-md-3 margin-vertical">$0.25</button>
-                    <button class="col-md-3 margin-vertical">$0.50</button>
-                    <button class="col-md-3 margin-vertical">$1.00</button>
+                    <button class="col-md-3 margin-vertical" data-coin-name="quarter" >$0.25</button>
+                    <button class="col-md-3 margin-vertical" data-coin-name="half" >$0.50</button>
+                    <button class="col-md-3 margin-vertical" data-coin-name="dollar" >$1.00</button>
                   </div>
                 </div>
              </div>
            </div>
         </div>
       </div>
+      <script src="./js/vending_machine.js"></script>
+      <script>
+
+      let vendingMachin =undefined;
+      let dispMsg = '';
+      window.onload = function(){
+        let coinButton = document.querySelectorAll('[data-coin-name]');
+        for(let i=0;i<coinButton.length;i++){
+              coinButton[i].addEventListener("click", coinInserted);
+        }
+        vendingMachine = new VendingMachine();
+        printMessage(vendingMachine.displayMessage);
+
+      }
+
+      function printMessage(mesg){
+        document.getElementById('displayMessage').value = mesg;
+      }
+      function buyItem(item){
+          console.log('this is console',item);
+           vendingMachine.selectItem(item);
+           printMessage(vendingMachine.displayMessage);
+           
+      }
+
+        function coinInserted(){
+          let coinName = this.getAttribute("data-coin-name");
+          console.log('Inserted coin is',vendingMachine.isValidCoin(coinName));
+          printMessage(vendingMachine.displayMessage);
+
+        }
+      </script>
   </body>
 </html>
