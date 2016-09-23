@@ -20,25 +20,58 @@ class VendingMachine {
 
   constructor(){
     this.displayMessage = "INSERT COIN";
+    this.totalAmount = 0;
+    this.insertedCoin={'nickel':0,'dime':0,'quarter':0};
+    this.change = 0.00;
   }
 
-//TODO:validate coin more efficiently
+  //TODO:validate coin more efficiently
   isValidCoin(coin){
      return VALID_COIN[coin]?true:false;
    }
 
-   selectItem(itemName){
+   acceptCoin(coin){
+     this.insertedCoin[coin] = this.insertedCoin[coin]+1;
+     this.updateTotal();
+     this.displayMessage = "$ "+this.totalAmount;
+  }
 
-     if(PRODUCT[itemName].qty>0) {
-        console.log('product available');
-        this.displayMessage = "THANK YOU";
-
-      }else{
-        console.log('Product is not available');
-      }
-
-
+  updateTotal (){
+        let total = 0;
+        for(let val in this.insertedCoin)
+          if(this.insertedCoin[val]>0)
+            total = parseFloat(total) + parseFloat(VALID_COIN[val].value)*this.insertedCoin[val];
+        this.totalAmount = total.toFixed(2);
    }
+
+   selectItem(itemName){
+     let remainingChange=0.00;
+     if(PRODUCT[itemName].qty>0) {
+          //Product is available checking the price of the item
+          if(this.totalAmount>=PRODUCT[itemName].price){
+            remainingChange = (parseFloat(this.totalAmount)-parseFloat(PRODUCT[itemName].price)).toPrecision(2);
+              console.log('reain',remainingChange);
+              //FIXME: display the correct floating point value
+              this.change = "$ "+remainingChange;
+              this.displayMessage = 'THANK YOU';
+          }
+          else
+          {
+            this.displayMessage = "$ "+PRODUCT[itemName].price.toFixed(2);
+          }
+      }
+      else {
+          this.displayMessage = 'SOLD OUT';
+      }
+  }
+
+//FIXME: return the change with the coin name
+  returnCoin(){
+
+      this.change = this.totalAmount;
+      this.displayMessage = '$ 0.00';
+      this.totalAmount = 0.00;
+  }
 
 
 }

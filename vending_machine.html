@@ -42,9 +42,9 @@
           <div class="row ">
             <div class="panel panel-default">
               <div class="panel-body">
-                <div class="instruction">
-                    <input id="displayMessage" type="text" class="btn btn-default btn-lg" value="00.00"  />
-                  </div>
+                    <div class="instruction">
+                        <input id="displayMessage" type="text" class="btn btn-default btn-lg" value="INSERT COIN"  />
+                    </div>
                   <div class="col-md-12">
                     <h4 style="display:block">Please select</h4>
                   </div>
@@ -66,6 +66,15 @@
                     <button class="col-md-3 margin-vertical" data-coin-name="half" >$0.50</button>
                     <button class="col-md-3 margin-vertical" data-coin-name="dollar" >$1.00</button>
                   </div>
+                  <div class="col-md-12">
+                    <input  type="button" class="btn btn-primary btn-block" value="Return Coins" onClick="returnCoin()" />
+                  </div>
+                  <div class="col-md-12">
+                    <h4 style="display:block">Coins Returns</h4>
+                  </div>
+                  <div class="instruction">
+                      <input id="returnBox" type="text" class="btn btn-default btn-lg" value=""  />
+                  </div>
                 </div>
              </div>
            </div>
@@ -86,18 +95,33 @@
 
       }
 
-      function printMessage(mesg){
+      function printMessage(mesg,msgbox){
+        if(msgbox)
+          document.getElementById('returnBox').value = mesg;
+        else
         document.getElementById('displayMessage').value = mesg;
       }
+
       function buyItem(item){
           console.log('this is console',item);
            vendingMachine.selectItem(item);
+           printMessage(vendingMachine.change,'returnBox');
            printMessage(vendingMachine.displayMessage);
-           
+
+      }
+
+      function returnCoin(){
+          vendingMachine.returnCoin();
+          printMessage(vendingMachine.change,'returnBox');
+          printMessage(vendingMachine.displayMessage);
       }
 
         function coinInserted(){
           let coinName = this.getAttribute("data-coin-name");
+          if(vendingMachine.isValidCoin(coinName)){
+              vendingMachine.acceptCoin(coinName);
+            printMessage(vendingMachine.displayMessage);
+          }
           console.log('Inserted coin is',vendingMachine.isValidCoin(coinName));
           printMessage(vendingMachine.displayMessage);
 
