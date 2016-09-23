@@ -1,4 +1,5 @@
 'use strict'
+
 const COINS = {nickel:{value:0.05,weight:5.00,diameter:21.21},
             dime:{value:0.10,weight:2.26,diameter:17.91},
             quarter:{value:0.25,weight:5.67,diameter:24.26},
@@ -31,7 +32,7 @@ class VendingMachine {
 
   }
 
-  //TODO:validate coin more efficiently
+  //FIXME:validate coin more efficiently
   isValidCoin(coin){
      return VALID_COIN[coin]?true:false;
    }
@@ -51,32 +52,47 @@ class VendingMachine {
         this.totalAmount = total.toFixed(2);
    }
 
+  reset(){
+    //reset the inserted coin stack
+    for(let val in this.insertedCoin)
+        this.insertedCoin[val]=0;
+    //reset the total amount
+    this.totalAmount = 0;
+  }
 
    selectItem(itemName){
      let remainingChange=0.00;
      if(PRODUCT[itemName].qty>0) {
           //Product is available checking the price of the item
-          if(this.totalAmount>=PRODUCT[itemName].price){
+          if(this.totalAmount >= PRODUCT[itemName].price){
             remainingChange = (parseFloat(this.totalAmount)-parseFloat(PRODUCT[itemName].price)).toPrecision(3);
               console.log('reain',remainingChange);
+
               //FIXME:fix compute change function with real value
               let changeArr = this.computeChange([25,10, 5],remainingChange*100);
               // let changeArr = this.computeChange([0.25, 0.10, 0.05],0);
-              this.change = '0.25*'+changeArr[0];
-                  this.change += ' 0.10*'+changeArr[1];
-                  this.change += ' 0.05*'+changeArr[2];
+                  this.change = changeArr[0]>0?'0.25 x '+changeArr[0]:'';
+                  this.change +=changeArr[1]>0?' 0.10 x '+changeArr[1]:'';
+                  this.change +=changeArr[2]>0?' 0.05 x '+changeArr[2]:'';
 
-
-              // this.change = "$ "+remainingChange;
+              //reset the values
+              let returnChange = this.change;
+              this.reset();
               this.displayMessage = 'THANK YOU';
+              return ['THANK YOU','0.00',returnChange];
+
           }
           else
           {
-            this.displayMessage = "$ "+PRODUCT[itemName].price.toFixed(2);
+            this.displayMessage = PRODUCT[itemName].price.toFixed(2);
+            let x = this.totalAmount>0?this.totalAmount:PRODUCT[itemName].price.toFixed(2);
+            return [x,'INSERT COIN'];
           }
       }
       else {
           this.displayMessage = 'SOLD OUT';
+          let y = this.totalAmount>0 ?this.totalAmount:'INSERT COIN';
+          return ['SOLD OUT',y];
       }
   }
 
@@ -84,11 +100,14 @@ class VendingMachine {
   returnCoin(){
       if(this.totalAmount>0){
         this.change = this.totalAmount;
+        let changeArr = this.computeChange([25,10, 5],this.change*100);
+        this.change = changeArr[0]>0?'0.25 x '+changeArr[0]:'';
+        this.change +=changeArr[1]>0?' 0.10 x '+changeArr[1]:'';
+        this.change +=changeArr[2]>0?' 0.05 x '+changeArr[2]:'';
+
         this.displayMessage = 'INSERT COIN';
-        this.totalAmount = 0.00;
+        this.reset();
       }
-
-
   }
 
   //FIXME:change the array to object for more specific result
@@ -104,6 +123,4 @@ class VendingMachine {
         }
         return coincount;
     }
-
-
 }
