@@ -96,10 +96,21 @@
       }
 
       function printMessage(mesg,msgbox){
+
         if(msgbox)
           document.getElementById('returnBox').value = mesg;
-        else
-        document.getElementById('displayMessage').value = mesg;
+        else{
+          // let i = 0;
+          // if(mesg === 'SOLD OUT')
+          //       let f = setInterval(function(){ alert(111); },1000);
+          //     // setTimeout(function(){ alert(111);},1000);
+          // var clr = function(){
+          //   clearInterval(f);
+          // }
+
+          document.getElementById('displayMessage').value = mesg;
+        }
+
       }
 
       function buyItem(item){
@@ -126,6 +137,8 @@
           printMessage(vendingMachine.displayMessage);
 
         }
+
+        
       </script>
   </body>
 </html>
