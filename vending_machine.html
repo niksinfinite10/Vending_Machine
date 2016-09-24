@@ -1,15 +1,12 @@
 <!DOCTYPE html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-    .margin-vertical{
-    margin: 0 0 5px 5px;
-    }
-    .instruction{
-    margin:5px 0 0 5px;
-    }
-    </style>
     <link rel="stylesheet" href="./css/bootstrap.css" >
+	<style>
+		.mylink{
+			text-decoration:none;
+		}
+	</style>
   </head>
   <body>
     <div class="container">
@@ -19,19 +16,20 @@
         </div>
         <div class="col-md-9">
           <div class="col-md-4 thumb">
-            <a class="thumbnail" href="javacsript:void(0)" onClick="buyItem('cola')" >
+            <a class="thumbnail mylink" href="javacsript:void(0)" onClick="buyItem('cola')" >
               <img class="img-responsive" src="./img/cocke.png" alt="">
-              1. $1.00 cola
+            <span class="text-center">[1.] $1.00 cola</span>
             </a>
+
           </div>
           <div class="col-md-4 thumb">
-            <a class="thumbnail" href="javacsript:void(0)" onClick="buyItem('chips')" >
+            <a class="thumbnail mylink" href="javacsript:void(0)" onClick="buyItem('chips')" >
               <img class="img-responsive" src="./img/chips.png" alt="">
               2. $0.50 chips
             </a>
           </div>
           <div class="col-md-4 thumb">
-            <a class="thumbnail" href="javacsript:void(0)" onClick="buyItem('candy')"  >
+            <a class="thumbnail mylink" href="javacsript:void(0)" onClick="buyItem('candy')"  >
               <img class="img-responsive" src="./img/candy.png" alt="">
               3. $0.65 candy
             </a>

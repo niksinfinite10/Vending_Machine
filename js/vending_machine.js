@@ -12,14 +12,14 @@ const VALID_COIN ={ nickel:{value:0.05,weight:5.00,diameter:21.21},
                   dime:{value:0.10,weight:2.26,diameter:17.91},
                   quarter:{value:0.25,weight:5.67,diameter:24.26}};
 
+//product detail with quantity and price
 const PRODUCT = {
-  cola:{price:1.00,qty:2},
-  chips:{price:0.50,qty:2},
-  candy:{price:0.65,qty:4}
+  cola:{price:1.00,qty:10},
+  chips:{price:0.50,qty:10},
+  candy:{price:0.65,qty:10}
 }
 
 class VendingMachine {
-
   constructor(){
     this.displayMessage = "INSERT COIN";
     this.totalAmount = 0;
@@ -39,8 +39,8 @@ class VendingMachine {
 
   isValidCoin(coin){
     //FIXME:validate coin more efficiently
-     return VALID_COIN[coin]?true:false;
-   }
+	return (VALID_COIN[coin] && parseFloat(COINS[coin].weight)===parseFloat(VALID_COIN[coin].weight));
+    }
 
    acceptCoin(coin){
      this.loadedCoins[coin] += 1;
@@ -70,6 +70,7 @@ class VendingMachine {
    selectItem(itemName){
      let remainingChange=0.00;
      if(PRODUCT[itemName].qty>0) {
+		 //TODO check for the exact change only
           //Product is available checking the price of the item
           if(this.totalAmount >= PRODUCT[itemName].price){
             remainingChange = (parseFloat(this.totalAmount)-parseFloat(PRODUCT[itemName].price)).toPrecision(3);
@@ -98,7 +99,7 @@ class VendingMachine {
 
   makeReturnChange(amount){
 
-    let coinStack = new Array();
+	let coinStack = new Array();
     for(let x in this.loadedCoins){
       if(this.loadedCoins[x]>0)
         coinStack.push(VALID_COIN[x].value*100);
@@ -109,9 +110,9 @@ class VendingMachine {
     for(let i=0;i<changeArr.length;i++){
       this.loadedCoins[COINENUM[coinStack[i]]] = this.loadedCoins[COINENUM[coinStack[i]]]-changeArr[i];
       if(i===0)
-        this.change = changeArr[i]>0?(coinStack[i]/100).toFixed(2)+' x '+changeArr[i]:'';
+        this.change = changeArr[i]>0?'('+(coinStack[i]/100).toFixed(2)+' x '+changeArr[i]+')':'';
       else
-        this.change += changeArr[i]>0?', '+(coinStack[i]/100).toFixed(2)+' x '+changeArr[i]:'';
+        this.change += changeArr[i]>0?' '+'('+(coinStack[i]/100).toFixed(2)+' x '+changeArr[i]+')':'';
     }
     console.log('here us ',this.loadedCoins);
     return this.change;
