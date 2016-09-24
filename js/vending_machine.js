@@ -14,7 +14,7 @@ const VALID_COIN ={ nickel:{value:0.05,weight:5.00,diameter:21.21},
 
 const PRODUCT = {
   cola:{price:1.00,qty:2},
-  chips:{price:0.50,qty:5},
+  chips:{price:0.50,qty:2},
   candy:{price:0.65,qty:4}
 }
 
@@ -26,13 +26,16 @@ class VendingMachine {
     this.insertedCoin={'nickel':0,'dime':0,'quarter':0};
     this.change = 0.00;
     this.loadedCoins = {'quarter':2,'dime':5,'nickel':3};
+    this.isExactChange=false;
+
+    //TODO: write a function for  EXACT CHANGE ONLY
     if(this.loadedCoins['nickel']==0 &&  this.loadedCoins['dime'] == 0 && this.loadedCoins['quarter'] == 0)
     {
-      this.displayMessage = "EXACT CHANGE";
+      this.isExactChange=true;
+      this.displayMessage = "EXACT CHANGE ONLY";
     }
 
   }
-
 
   isValidCoin(coin){
     //FIXME:validate coin more efficiently
@@ -70,19 +73,14 @@ class VendingMachine {
           //Product is available checking the price of the item
           if(this.totalAmount >= PRODUCT[itemName].price){
             remainingChange = (parseFloat(this.totalAmount)-parseFloat(PRODUCT[itemName].price)).toPrecision(3);
-              // console.log('reain',remainingChange);
               //deduct the quantity from the inventory
               PRODUCT[itemName].qty = PRODUCT[itemName].qty-1;
-
               this.makeReturnChange(remainingChange);
-
-
               let returnChange = this.change;
               //reset the values
               this.reset();
               this.displayMessage = 'THANK YOU';
               return ['THANK YOU','0.00',returnChange];
-
           }
           else
           {

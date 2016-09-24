@@ -42,41 +42,41 @@
           <div class="row ">
             <div class="panel panel-default">
               <div class="panel-body">
-                    <div class="col-md-12">
-                        <input id="displayMessage" type="text" class="btn btn-default btn-lg" value="INSERT COIN" readonly="true" />
+                    <div class="form-group">
+                        <input id="displayMessage" type="text" class="form-control" value="INSERT COIN" readonly="true" />
                     </div>
-                <!--  <div class="col-md-12">
+                  <div class="col-md-12">
                     <h4 style="display:block">Please select</h4>
                   </div>
-                  <div style="margin-top:10px;">
-                    <button class="col-md-3 margin-vertical" onClick="buyItem('cola')" >1</button>
-                    <button class="col-md-3 margin-vertical" onClick="buyItem('chips')">2</button>
-                    <button class="col-md-3 margin-vertical" onClick="buyItem('candy')">3</button>
-                  </div> -->
+                  <div style="margin-top:10px;" class="text-center">
+                    <button class="btn btn-default" onClick="buyItem('cola')" >1</button>
+                    <button class="btn btn-default" onClick="buyItem('chips')">2</button>
+                    <button class="btn btn-default" onClick="buyItem('candy')">3</button>
+                  </div>
                   <div class="col-md-12">
                     <h4 style="display:block">Coins</h4>
 
                   <div class="row" style="margin-bottom:20px;" >
                     <div style="margin-top:10px;" class="text-center">
-                      <button class="col-md-3 margin-vertical" data-coin-name="penny" >$0.01</button>
-                      <button class="col-md-3 margin-vertical" data-coin-name="nickel" >$0.5</button>
-                      <button class="col-md-3 margin-vertical" data-coin-name="dime" >$0.10</button>
+                      <button class="btn btn-default " data-coin-name="penny" >$0.01</button>
+                      <button class="btn btn-default " data-coin-name="nickel" >$0.5</button>
+                      <button class="btn btn-default " data-coin-name="dime" >$0.10</button>
                     </div>
-                    <div style="margin-top:10px;">
-                      <button class="col-md-3 margin-vertical" data-coin-name="quarter" >$0.25</button>
-                      <button class="col-md-3 margin-vertical" data-coin-name="half" >$0.50</button>
-                      <button class="col-md-3 margin-vertical" data-coin-name="dollar" >$1.00</button>
+                    <div style="margin-top:10px;" class="text-center">
+                      <button class="btn btn-default" data-coin-name="quarter" >$0.25</button>
+                      <button class="btn btn-default" data-coin-name="half" >$0.50</button>
+                      <button class="btn btn-default" data-coin-name="dollar" >$1.00</button>
                     </div>
                   </div>
                   </div>
-                  <div class="col-md-12">
+                      <div class="form-group">
                     <input  type="button" class="btn btn-primary btn-block" value="Return Coins" onClick="returnCoin()" />
                   </div>
                   <div class="col-md-12">
                     <h4 style="display:block">Coins Returns</h4>
                   </div>
-                  <div class="instruction">
-                      <input id="returnBox" type="text" class="btn btn-default btn-lg" value=""  readonly="true" />
+                  <div class="form-group">
+                      <input id="returnBox" type="text" class="form-control" value=""  readonly="true" />
                   </div>
                 </div>
              </div>
@@ -89,28 +89,24 @@
       let vendingMachin =undefined;
       let dispMsg = '';
       let blicking = undefined;
+
       window.onload = function(){
         let coinButton = document.querySelectorAll('[data-coin-name]');
         for(let i=0;i<coinButton.length;i++){
               coinButton[i].addEventListener("click", coinInserted);
         }
-
         vendingMachine = new VendingMachine();
         printMessage(vendingMachine.displayMessage);
-
       }
 
       function printMessage(mesg,msgbox){
-
         if(msgbox)
           document.getElementById('returnBox').value = mesg;
         else{
           //TODO: display message for sold item more efficiently
           document.getElementById('displayMessage').value = mesg;
         }
-
       }
-
 
     function clearBlinking(){
       console.log('interval is not clearing');
@@ -158,10 +154,7 @@
             printMessage('Not valid coin',"returnBox");
             setTimeout(function(){ printMessage('',"returnBox");}, 500);
           }
-
-
-
-        }
+}
 
 
       </script>
