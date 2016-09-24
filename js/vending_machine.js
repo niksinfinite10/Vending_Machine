@@ -25,7 +25,7 @@ class VendingMachine {
     this.totalAmount = 0;
     this.insertedCoin={'nickel':0,'dime':0,'quarter':0};
     this.change = 0.00;
-    this.loadedCoins = {'nickel':10,'dime':10,'quarter':0};
+    this.loadedCoins = {'quarter':2,'dime':5,'nickel':3};
     if(this.loadedCoins['nickel']==0 &&  this.loadedCoins['dime'] == 0 && this.loadedCoins['quarter'] == 0)
     {
       this.displayMessage = "EXACT CHANGE";
@@ -40,13 +40,11 @@ class VendingMachine {
    }
 
    acceptCoin(coin){
-     console.log('beforw insert val',this.loadedCoins);
      this.loadedCoins[coin] += 1;
      this.insertedCoin[coin] += 1;
-
      this.updateTotal();
      this.displayMessage = "$ "+this.totalAmount;
-     console.log('insert val',this.loadedCoins);
+
   }
 
   updateTotal (){
@@ -102,27 +100,23 @@ class VendingMachine {
 
   makeReturnChange(amount){
 
-    //TODO: fix coin stack with the current coin stack
-    let coinStack = [10, 5];
-    let changeArr = this.computeChange(coinStack,amount*100);
-    for(let i=0;i<changeArr.length;i++){
-      this.loadedCoins[COINENUM[coinStack[i]]] = this.loadedCoins[COINENUM[coinStack[i]]]-changeArr[i];
-      if(i==0)
-        this.change = changeArr[i]>0?COINENUM[coinStack[i]]+''+changeArr[i]:'';
-      else
-        this.change += changeArr[i]>0?COINENUM[coinStack[i]]+''+changeArr[i]:'';
+    let coinStack = new Array();
+    for(let x in this.loadedCoins){
+      if(this.loadedCoins[x]>0)
+        coinStack.push(VALID_COIN[x].value*100);
     }
 
-    //substract the quantity of change coins from the loadedCoins
-    // this.loadedCoins['quarter'] = this.loadedCoins['quarter']-changeArr[0];
-    // this.loadedCoins['dime'] = this.loadedCoins['dime']- changeArr[1];
-    // this.loadedCoins['nickel'] = this.loadedCoins['nickel']-changeArr[2];
+    let changeArr = this.computeChange(coinStack,amount*100);
 
-    // this.change = changeArr[0]>0?'0.10 x '+changeArr[0]:'';
-    // this.change +=changeArr[1]>0?' 0.5 x '+changeArr[1]:'';
-    // this.change +=changeArr[2]>0?' 0.05 x '+changeArr[2]:'';
+    for(let i=0;i<changeArr.length;i++){
+      this.loadedCoins[COINENUM[coinStack[i]]] = this.loadedCoins[COINENUM[coinStack[i]]]-changeArr[i];
+      if(i===0)
+        this.change = changeArr[i]>0?(coinStack[i]/100).toFixed(2)+' x '+changeArr[i]:'';
+      else
+        this.change += changeArr[i]>0?', '+(coinStack[i]/100).toFixed(2)+' x '+changeArr[i]:'';
+    }
+    console.log('here us ',this.loadedCoins);
     return this.change;
-
   }
 
   returnCoin(){
